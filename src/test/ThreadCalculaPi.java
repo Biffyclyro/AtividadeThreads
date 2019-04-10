@@ -20,41 +20,27 @@ public class ThreadCalculaPi {
 
 
         for(int i = 0; i < NUM_THREADS; i++){
-            ThreadPi t = new ThreadPi(i);
+            ThreadPi t = new ThreadPi();
             new Thread(t).start();
             threads.add(t);
         }
 
+            while (true) {
+                long total =0;
+                long pIn = 0;
+                for (ThreadPi t : threads) {
+                    total += t.total;
+                    pIn += t.pIn;
+                    System.out.println("PI = "+(4 * double pIn/total));
 
-            for(ThreadPi t: threads){
-                while (t.pronto==true){
-                    t.run();
+
                 }
-
-
             }
 
 
 
     }
 
-    public static void calculaPi(){
-        final int total = 100000;cd D
-        Random rnd = new Random();
-        int Pin = 0;
-
-
-        for(int j = 0; j< total; j++){
-            double x = rnd.nextDouble();
-            double y = rnd.nextDouble();
-            if(x * y + y * x <= 1){
-                Pin++;
-            }
-        }
-
-        System.out.println("PI = "+(4 * ((double)Pin)/total));
-
-    }
 
 
    /* private void calculoPi(){
@@ -67,20 +53,29 @@ public class ThreadCalculaPi {
 
     static class ThreadPi implements Runnable{
 
-        private int numThread;
-        private boolean pronto = false;
+        public long total = 1;
+        public long pIn = 0;
 
 
 
-        public ThreadPi(int numThread){
-            this.numThread = numThread;
 
-        }
 
         public void run(){
-            pronto = true;
 
-            calculaPi();
+            Random rnd = new Random();
+
+
+
+            for(int j = 0; j< total; j++, total++){
+                double x = rnd.nextDouble();
+                double y = rnd.nextDouble();
+                if(x * y + y * x <= 1){
+                    pIn++;
+                }
+            }
+
+
+
 
         }
 
